@@ -42,54 +42,82 @@ However, the included **system skills rely directly on native Linux binaries**:
 
 ## Installation & Setup
 
-### 1. System Requirements (Debian / Ubuntu / Raspberry Pi OS)
+### 1. System Dependencies
 
-Install required system packages for OSINT and telemetry tools:
+* **Linux (Debian / Ubuntu / Raspberry Pi OS):**
+  Install required tools for native system telemetry and OSINT skills:
+  ```bash
+  sudo apt-get update && sudo apt-get install -y git python3-venv dnsutils whois nmap
+  ```
 
-Bash
-sudo apt-get update && sudo apt-get install -y \
-  git \
-  python3-venv \
-  dnsutils \
-  whois \
-  nmap
+* **Windows (PowerShell Development):**
+  Core agent routing, memory, Telegram webhooks, and API-driven tools (Wayback Machine, Shodan) run natively on Windows.
+  *(Optional: If you want `nmap` or `whois` support on Windows, install them via Chocolatey or Scoop: `choco install nmap whois`).*
+
+---
 
 ### 2. Clone & Virtual Environment
 
-Bash
-git clone [https://github.com/J-org3/Sergeant.git](https://github.com/J-org3/Sergeant.git)
-cd Sergeant
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+* **Linux / macOS:**
+  ```bash
+  git clone https://github.com/J-org3/Sergeant.git
+  cd Sergeant
+  python3 -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  ```
+
+* **Windows (PowerShell):**
+  ```powershell
+  git clone https://github.com/J-org3/Sergeant.git
+  cd Sergeant
+  python -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  pip install -r requirements.txt
+  ```
+
+---
 
 ### 3. Environment Configuration
+
 Copy the sample environment file:
 
-Bash
-cp .env.example .env
-Edit .env with your actual credentials:
+* **Linux / macOS:** `cp .env.example .env`
+* **Windows (PowerShell):** `Copy-Item .env.example .env`
 
-Set TELEGRAM_BOT_TOKEN and define your secret webhook path.
+Edit `.env` with your actual credentials:
+* Set `TELEGRAM_BOT_TOKEN` and define your secret webhook path.
+* Specify your personal Telegram ID in `ALLOWED_TELEGRAM_USER_IDS` to restrict unauthorized access at the webhook layer.
+* Provide Azure OpenAI and/or local Ollama connection parameters.
 
-Specify your personal Telegram ID in ALLOWED_TELEGRAM_USER_IDS to restrict unauthorized access at the webhook layer.
+---
 
-Provide Azure OpenAI and/or local Ollama connection parameters.
+### 4. Running Locally
 
-Production Deployment (systemd + Cloudflare Tunnel)
+Execute the FastAPI application runner:
+
+```bash
+python run.py
+```
+
+---
+
+## Production Deployment (systemd + Cloudflare Tunnel)
+
 To keep Sergeant active 24/7 on an edge node behind NAT:
 
-Expose port 8000 securely using a Cloudflare Tunnel:
-
-Bash
+1. Expose port `8000` securely using a Cloudflare Tunnel:
+```bash
 cloudflared tunnel run <your-tunnel-name>
-Create the systemd service definition:
+```
 
-Bash
+2. Create the systemd service definition:
+```bash
 sudo nano /etc/systemd/system/sergeant.service
-Add the following unit configuration (adjust working directory and paths):
+```
 
-Ini, TOML
+3. Add the following unit configuration (adjust working directory and paths):
+```ini
 [Unit]
 Description=Sergeant Autonomous Agent
 After=network.target
@@ -105,11 +133,16 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
-### 4. Reload systemd and start the daemon:
+```
 
-Bash
+4. Reload systemd and start the daemon:
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now sergeant.service
+```
 
-License
-Distributed under the MIT License. See LICENSE for more information.
+---
+
+## License
+
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.

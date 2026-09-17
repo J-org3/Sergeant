@@ -1,0 +1,27 @@
+# Environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Local Databases (Memory)
+*.db
+*.sqlite3
+
+# Large files, downloads & media
+*.gguf
+*.aria2
+wget-log
+*.png
+*.jpg
+*.jpeg
+
+# HuggingFace Cache
+.cache/

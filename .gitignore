@@ -19,9 +19,7 @@ __pycache__/
 *.gguf
 *.aria2
 wget-log
-*.png
-*.jpg
-*.jpeg
+
 
 # HuggingFace Cache
 .cache/

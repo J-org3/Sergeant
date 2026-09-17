@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/banner.jpg" alt="Sergeant AI Banner" width="100%">
+  <img src="assets/banner.png" alt="Sergeant AI Banner" width="100%">
 </div>
 
 # Sergeant: Edge-Native AI Agent

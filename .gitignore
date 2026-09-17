@@ -15,11 +15,14 @@ __pycache__/
 *.db
 *.sqlite3
 
-# Large files, downloads & media
+# Large files, downloads
 *.gguf
 *.aria2
 wget-log
 
-
-# HuggingFace Cache
-.cache/
+# Media files (Ignore all EXCEPT assets folder)
+*.png
+*.jpg
+*.jpeg
+!assets/
+!assets/**
